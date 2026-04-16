@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Standard Tests: What Works Globally</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #0ea5e9;
+            --secondary-light: #e0f2fe;
+            --accent: #8b5cf6;
+            --accent-light: #ede9fe;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --gold: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .tier-section {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+        }
+
+        .tier-header {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 5px solid;
+        }
+
+        .tier-1 .tier-header { border-color: var(--primary); }
+        .tier-2 .tier-header { border-color: var(--secondary); }
+        .tier-3 .tier-header { border-color: var(--accent); }
+
+        .tier-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tier-subtitle {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tier-1 .card-title { color: var(--primary); }
+        .tier-2 .card-title { color: var(--secondary); }
+        .tier-3 .card-title { color: var(--accent); }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-gold { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .badge-time { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .badge-age { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        
+        .tier-1 .badge-publisher { background: var(--primary-light); color: var(--primary); }
+        .tier-2 .badge-publisher { background: var(--secondary-light); color: var(--secondary); }
+        .tier-3 .badge-publisher { background: var(--accent-light); color: var(--accent); }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .tier-2 li::before { color: var(--secondary); }
+        .tier-3 li::before { color: var(--accent); }
+
+        .highlight-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-top: auto;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .tier-2 .highlight-box { border-left-color: var(--secondary); }
+        .tier-3 .highlight-box { border-left-color: var(--accent); }
+
+        .highlight-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 2rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Gold Standard Tests</h1>
+        <p>A global guide to assessment tools for reading difficulties and dyslexia.</p>
+    </header>
+
+    <section class="tier-section tier-1">
+        <div class="tier-header">
+            <h2 class="tier-title">Tier 1: Comprehensive Batteries</h2>
+            <p class="tier-subtitle">The "gold standard" diagnostic tools used by educational psychologists worldwide.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 class="card-title">CTOPP-2</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Pro-Ed Int.</span>
+                    <span class="badge badge-gold">★ Clinical Gold Standard</span>
+                    <span class="badge badge-time">⏱ 30-45 mins</span>
+                    <span class="badge badge-age">👤 Ages 4-24</span>
+                </div>
+                
+                <h4 class="section-title">What it includes</h4>
+                <ul>
+                    <li><strong>Rapid Automatized Naming (RAN):</strong> Letters, digits, colors, objects</li>
+                    <li><strong>Phonological Awareness:</strong> Blending, segmentation, deletion</li>
+                    <li><strong>Memory:</strong> Nonsense word repetition, digit span</li>
+                </ul>
+
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1rem;">
+                    <strong>Validation:</strong> 30+ years of research; >5,000 studies cite this.
+                </p>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Why it works</span>
+                    Naming speed, particularly letter naming, is one of the best early predictors of reading difficulties. Slow naming speed results in problems with developing reading fluency and makes timed tests difficult.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">GORT-5</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Pro-Ed Int.</span>
+                    <span class="badge badge-gold">★ Clinical Gold Standard</span>
+                    <span class="badge badge-time">⏱ 15-30 mins</span>
+                    <span class="badge badge-age">👤 Ages 6-23</span>
+                </div>
+                
+                <h4 class="section-title">What it includes</h4>
+                <ul>
+                    <li><strong>Oral Reading Fluency (ORF):</strong> Rate, accuracy, fluency, expression</li>
+                    <li><strong>Reading Comprehension:</strong> Literal and inferential questions</li>
+                    <li>Passage interpretation</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Why it works</span>
+                    Directly measures reading performance in context (not isolated words). Evaluates ability to read text accurately, quickly, and with appropriate expression.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">WIAT-4</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Pearson</span>
+                    <span class="badge badge-gold">★ Clinical Gold Standard</span>
+                    <span class="badge badge-time">⏱ 45-90 mins</span>
+                    <span class="badge badge-age">👤 Ages 4-50</span>
+                </div>
+                
+                <h4 class="section-title">What it includes</h4>
+                <ul>
+                    <li><strong>Reading:</strong> Word Reading, Fluency, Pseudoword Decoding</li>
+                    <li><strong>Writing:</strong> Spelling, Writing Samples</li>
+                    <li><strong>Other:</strong> Numeracy, Listening Comprehension</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Why it works</span>
+                    Comprehensive achievement profile; only tool showing differences across domains. Identifies isolated reading disability vs. global achievement problems.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">KTEA-3</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Pearson</span>
+                    <span class="badge badge-time">⏱ 30-60 mins</span>
+                    <span class="badge badge-age">👤 Ages 4.5-25</span>
+                </div>
+                
+                <h4 class="section-title">What it includes</h4>
+                <ul>
+                    <li>Letter & Word Recognition (sight words)</li>
+                    <li>Word Attack (decoding via phonetics)</li>
+                    <li>Reading Fluency & Nonsense Word Fluency</li>
+                    <li>Spelling (real and nonsense words)</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Why it works</span>
+                    Dynamic assessment options allow testing "learning potential" not just current performance. Excellent for tracking improvement with intervention.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tier-section tier-2">
+        <div class="tier-header">
+            <h2 class="tier-title">Tier 2: Specialized Screening Tools</h2>
+            <p class="tier-subtitle">Used by schools for fast, initial identification.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 class="card-title">RAN-RAS</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">High Clinical Acceptance</span>
+                    <span class="badge badge-time">⏱ 5-10 mins</span>
+                </div>
+                
+                <h4 class="section-title">Components Measured (Items per min)</h4>
+                <ul>
+                    <li>Letter naming (A, D, O, P, R)</li>
+                    <li>Digit naming (2, 4, 6, 9, 5)</li>
+                    <li>Color naming</li>
+                    <li>Object naming</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Key Insight</span>
+                    Single best predictor of reading problems according to research. Every major assessment includes a RAN component.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">PAT-2NU</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">High Clinical Acceptance</span>
+                    <span class="badge badge-time">⏱ 20-30 mins</span>
+                    <span class="badge badge-age">👤 Ages 3-12</span>
+                </div>
+                
+                <h4 class="section-title">Tests Included</h4>
+                <ul>
+                    <li>Rhyme detection & production</li>
+                    <li>Syllable segmentation & blending</li>
+                    <li>Sound isolation & blending</li>
+                    <li>Sound deletion & substitution</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Key Insight</span>
+                    Standard tool utilized heavily in speech-language pathology for detailed phonological breakdown.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">TOWRE-2</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Very High Acceptance</span>
+                    <span class="badge badge-time">⏱ 5-10 mins</span>
+                    <span class="badge badge-age">👤 Ages 6-24</span>
+                </div>
+                
+                <h4 class="section-title">What it measures (Words/min)</h4>
+                <ul>
+                    <li><strong>Sight Word Efficiency:</strong> Real words, timed</li>
+                    <li><strong>Phonetic Decoding Efficiency:</strong> Pseudowords, timed</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Key Insight</span>
+                    Offers incredibly quick and reliable screening for fundamental reading disabilities.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tier-section tier-3">
+        <div class="tier-header">
+            <h2 class="tier-title">Tier 3: Digital & AI-Based Platforms</h2>
+            <p class="tier-subtitle">Modern platforms combining speed with comprehensive, adaptive measurement.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 class="card-title">MAP Reading Fluency</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">NWEA</span>
+                    <span class="badge badge-time">⏱ 15-25 mins</span>
+                    <span class="badge badge-age">👤 K - Grade 6</span>
+                </div>
+                
+                <h4 class="section-title">Measures</h4>
+                <ul>
+                    <li>Oral Reading Fluency</li>
+                    <li>Nonsense Word Fluency</li>
+                    <li>Phoneme Segmentation (advanced)</li>
+                    <li>Letter Naming Fluency</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Advantage</span>
+                    Used by 12,000+ schools in the US. Features adaptive difficulty and provides excellent frequent monitoring capability.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">FastBridge</h3>
+                <div class="badges">
+                    <span class="badge badge-publisher">Renaissance Solutions</span>
+                    <span class="badge badge-time">⏱ 5-15 mins</span>
+                    <span class="badge badge-age">👤 PreK - Grade 3</span>
+                </div>
+                
+                <h4 class="section-title">Measures</h4>
+                <ul>
+                    <li>Letter Naming & RAN</li>
+                    <li>Nonsense Word Fluency</li>
+                    <li>Phoneme Segmentation</li>
+                    <li>Oral Reading Fluency</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <span class="highlight-title">Advantage</span>
+                    Used by 8,000+ schools. Extremely fast administration for early-stage screening.
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Dyslexia Assessment Metrics</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-page: #f8fafc;
+            --bg-table: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+            
+            /* Category Colors */
+            --cat-rapid: #e0e7ff;
+            --cat-phono: #dcfce7;
+            --cat-fluency: #fef3c7;
+            --cat-writing: #fee2e2;
+            --cat-memory: #f3e8ff;
+            
+            --cat-rapid-text: #3730a3;
+            --cat-phono-text: #166534;
+            --cat-fluency-text: #92400e;
+            --cat-writing-text: #991b1b;
+            --cat-memory-text: #6b21a8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .table-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-table);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 1000px;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            padding: 1rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Category Header Rows */
+        .category-row td {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            padding: 1.2rem 1rem;
+        }
+
+        .cat-rapid td { background-color: var(--cat-rapid); color: var(--cat-rapid-text); }
+        .cat-phono td { background-color: var(--cat-phono); color: var(--cat-phono-text); }
+        .cat-fluency td { background-color: var(--cat-fluency); color: var(--cat-fluency-text); }
+        .cat-writing td { background-color: var(--cat-writing); color: var(--cat-writing-text); }
+        .cat-memory td { background-color: var(--cat-memory); color: var(--cat-memory-text); }
+
+        /* Specific Column Styling */
+        .col-test { font-weight: 600; color: var(--text-main); }
+        .col-subtest { color: var(--text-muted); }
+        .col-metric { font-family: monospace; font-size: 0.9rem; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; }
+        
+        .time-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e2e8f0;
+            color: #475569;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .detects-text {
+            color: #334155;
+            font-style: italic;
+        }
+
+        .tools-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tool-badge {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Assessment Metrics Breakdown</h1>
+        <p class="subtitle">A detailed mapping of test batteries, sub-tests, and the diagnostic software that utilizes them.</p>
+    </header>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th width="15%">Test Group</th>
+                    <th width="15%">Specific Sub-Test</th>
+                    <th width="15%">Key Metric</th>
+                    <th width="10%">Time</th>
+                    <th width="25%">What It Detects</th>
+                    <th width="20%">Software / Tools Using It</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="category-row cat-rapid">
+                    <td colspan="6">RAPID NAMING</td>
+                </tr>
+                <tr>
+                    <td class="col-test">RAN Letters</td>
+                    <td class="col-subtest">Letter Naming Speed</td>
+                    <td><span class="col-metric">Letters/min</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Naming speed (single best predictor)</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">RAN-RAS</span><span class="tool-badge">MAP</span><span class="tool-badge">Amira</span><span class="tool-badge">ISIP</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">RAN Digits</td>
+                    <td class="col-subtest">Digit Naming Speed</td>
+                    <td><span class="col-metric">Digits/min</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Automatic naming retrieval</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">RAN-RAS</span><span class="tool-badge">ISIP</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">RAN Colors</td>
+                    <td class="col-subtest">Color Naming Speed</td>
+                    <td><span class="col-metric">Colors/min</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Visual-verbal naming</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">RAN-RAS</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">RAN Objects</td>
+                    <td class="col-subtest">Object Naming Speed</td>
+                    <td><span class="col-metric">Objects/min</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Conceptual naming</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">RAN-RAS</span></div></td>
+                </tr>
+
+                <tr class="category-row cat-phono">
+                    <td colspan="6">PHONOLOGICAL AWARENESS</td>
+                </tr>
+                <tr>
+                    <td class="col-test">Rhyme Detection</td>
+                    <td class="col-subtest">Rhyme Recognition</td>
+                    <td><span class="col-metric">% correct pairs</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Sound pattern awareness</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">Amira</span><span class="tool-badge">PAST</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Rhyme Detection</td>
+                    <td class="col-subtest">Rhyme Production</td>
+                    <td><span class="col-metric">% valid rhymes</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Generative sound knowledge</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Syllable Tasks</td>
+                    <td class="col-subtest">Syllable Segmentation</td>
+                    <td><span class="col-metric">% correct counts</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Sound structure awareness</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">MAP</span><span class="tool-badge">Amira</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Syllable Tasks</td>
+                    <td class="col-subtest">Syllable Blending</td>
+                    <td><span class="col-metric">% correct words</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Sound synthesis</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">PAST</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Sound Isolation</td>
+                    <td class="col-subtest">Initial Sound ID</td>
+                    <td><span class="col-metric">% correct sounds</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Phoneme awareness</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">MAP</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Sound Isolation</td>
+                    <td class="col-subtest">Final Sound ID</td>
+                    <td><span class="col-metric">% correct sounds</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Phoneme awareness</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">PAST</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Blending</td>
+                    <td class="col-subtest">Phoneme Blending</td>
+                    <td><span class="col-metric">% correct words</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Sound synthesis ability (strong predictor)</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">MAP</span><span class="tool-badge">WIAT-4</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Segmentation</td>
+                    <td class="col-subtest">Phoneme Segmentation</td>
+                    <td><span class="col-metric">% correct breakdowns</span></td>
+                    <td><span class="time-badge">⏱ 5-7 min</span></td>
+                    <td class="detects-text">Phoneme isolation (hardest PA task)</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span><span class="tool-badge">WIAT-4</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Manipulation</td>
+                    <td class="col-subtest">Phoneme Deletion</td>
+                    <td><span class="col-metric">% correct</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Advanced phonological processing</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">PAT-2NU</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Manipulation</td>
+                    <td class="col-subtest">Phoneme Substitution</td>
+                    <td><span class="col-metric">% correct</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Complex sound manipulation</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span></div></td>
+                </tr>
+
+                <tr class="category-row cat-fluency">
+                    <td colspan="6">READING FLUENCY</td>
+                </tr>
+                <tr>
+                    <td class="col-test">ORF</td>
+                    <td class="col-subtest">Passage Reading</td>
+                    <td><span class="col-metric">WCPM</span></td>
+                    <td><span class="time-badge">⏱ 1-3 min</span></td>
+                    <td class="detects-text">Reading speed & accuracy in context</td>
+                    <td><div class="tools-container"><span class="tool-badge">GORT-5</span><span class="tool-badge">MAP</span><span class="tool-badge">Amira</span><span class="tool-badge">FastBridge</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">ORF</td>
+                    <td class="col-subtest">Comprehension</td>
+                    <td><span class="col-metric">% questions correct</span></td>
+                    <td><span class="time-badge">⏱ 2-5 min</span></td>
+                    <td class="detects-text">Understanding of passage</td>
+                    <td><div class="tools-container"><span class="tool-badge">GORT-5</span><span class="tool-badge">WIAT-4</span><span class="tool-badge">WJ-IV</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Word Fluency</td>
+                    <td class="col-subtest">Sight Word Efficiency</td>
+                    <td><span class="col-metric">Real words/min</span></td>
+                    <td><span class="time-badge">⏱ 1 min</span></td>
+                    <td class="detects-text">Automatic word recognition</td>
+                    <td><div class="tools-container"><span class="tool-badge">TOWRE-2</span><span class="tool-badge">WIAT-4</span><span class="tool-badge">KTEA-3</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Decoding Fluency</td>
+                    <td class="col-subtest">Pseudoword Decoding</td>
+                    <td><span class="col-metric">Nonsense words/min</span></td>
+                    <td><span class="time-badge">⏱ 1 min</span></td>
+                    <td class="detects-text">Phonetic decoding ability</td>
+                    <td><div class="tools-container"><span class="tool-badge">TOWRE-2</span><span class="tool-badge">KTEA-3</span><span class="tool-badge">MAP</span><span class="tool-badge">Amira</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Decoding Fluency</td>
+                    <td class="col-subtest">NWF Score</td>
+                    <td><span class="col-metric">Words/min + accuracy</span></td>
+                    <td><span class="time-badge">⏱ 1 min</span></td>
+                    <td class="detects-text">Decoding without sight word help</td>
+                    <td><div class="tools-container"><span class="tool-badge">MAP</span><span class="tool-badge">FastBridge</span><span class="tool-badge">ISIP</span><span class="tool-badge">Amira</span></div></td>
+                </tr>
+
+                <tr class="category-row cat-writing">
+                    <td colspan="6">WRITING</td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Copy</td>
+                    <td class="col-subtest">Copying Fluency</td>
+                    <td><span class="col-metric">WWM (words/min)</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Transcription speed</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">WIAT-4</span><span class="tool-badge">KTEA-3</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Copy</td>
+                    <td class="col-subtest">Accuracy</td>
+                    <td><span class="col-metric">% correctly copied</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Attention to detail while writing</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">Univ of Buffalo</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Free Writing</td>
+                    <td class="col-subtest">Writing Sample</td>
+                    <td><span class="col-metric">Words & spelling acc.</span></td>
+                    <td><span class="time-badge">⏱ 10-15 min</span></td>
+                    <td class="detects-text">Authentic writing ability</td>
+                    <td><div class="tools-container"><span class="tool-badge">WIAT-4</span><span class="tool-badge">GORT-5</span><span class="tool-badge">KTEA-3</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Spelling</td>
+                    <td class="col-subtest">Real Word Spelling</td>
+                    <td><span class="col-metric">% correct</span></td>
+                    <td><span class="time-badge">⏱ 5-10 min</span></td>
+                    <td class="detects-text">Orthographic knowledge</td>
+                    <td><div class="tools-container"><span class="tool-badge">KTEA-3</span><span class="tool-badge">WIAT-4</span><span class="tool-badge">TOD</span><span class="tool-badge">WRMT-III</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Spelling</td>
+                    <td class="col-subtest">Nonsense Word Spelling</td>
+                    <td><span class="col-metric">% phonetically correct</span></td>
+                    <td><span class="time-badge">⏱ 5-10 min</span></td>
+                    <td class="detects-text">Phonetic encoding ability</td>
+                    <td><div class="tools-container"><span class="tool-badge">KTEA-3</span><span class="tool-badge">WRMT-III</span><span class="tool-badge">TOD</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Quality</td>
+                    <td class="col-subtest">Letter Formation</td>
+                    <td><span class="col-metric">Distortion %, reversals %</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Motor control; letter knowledge</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">Univ of Buffalo</span><span class="tool-badge">WIAT-4</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Quality</td>
+                    <td class="col-subtest">Spacing Consistency</td>
+                    <td><span class="col-metric">Variance %</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Visual-motor planning</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">Univ of Buffalo</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Quality</td>
+                    <td class="col-subtest">Baseline Deviation</td>
+                    <td><span class="col-metric">Pixel deviation</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Line control</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">Univ of Buffalo</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Handwriting Quality</td>
+                    <td class="col-subtest">Slant Consistency</td>
+                    <td><span class="col-metric">Angle variance</span></td>
+                    <td><span class="time-badge">⏱ 5 min</span></td>
+                    <td class="detects-text">Motor consistency</td>
+                    <td><div class="tools-container"><span class="tool-badge">DASH</span><span class="tool-badge">Univ of Buffalo</span></div></td>
+                </tr>
+
+                <tr class="category-row cat-memory">
+                    <td colspan="6">MEMORY</td>
+                </tr>
+                <tr>
+                    <td class="col-test">Nonsense Word Rep.</td>
+                    <td class="col-subtest">Phonological Memory</td>
+                    <td><span class="col-metric"># correct repetitions</span></td>
+                    <td><span class="time-badge">⏱ 3-5 min</span></td>
+                    <td class="detects-text">Phonological loop capacity</td>
+                    <td><div class="tools-container"><span class="tool-badge">CTOPP-2</span><span class="tool-badge">NEPSY-II</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Digit Span</td>
+                    <td class="col-subtest">Forward</td>
+                    <td><span class="col-metric">Maximum span</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Auditory working memory</td>
+                    <td><div class="tools-container"><span class="tool-badge">WAIS-IV</span><span class="tool-badge">WISC-V</span><span class="tool-badge">CTOPP-2</span><span class="tool-badge">WJ-IV</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Digit Span</td>
+                    <td class="col-subtest">Backward</td>
+                    <td><span class="col-metric">Maximum span reversed</span></td>
+                    <td><span class="time-badge">⏱ 2-3 min</span></td>
+                    <td class="detects-text">Working memory manipulation</td>
+                    <td><div class="tools-container"><span class="tool-badge">WAIS-IV</span><span class="tool-badge">WISC-V</span><span class="tool-badge">CTOPP-2</span><span class="tool-badge">WJ-IV</span></div></td>
+                </tr>
+                <tr>
+                    <td class="col-test">Listening Comp.</td>
+                    <td class="col-subtest">Passage Comprehension</td>
+                    <td><span class="col-metric">% questions correct</span></td>
+                    <td><span class="time-badge">⏱ 5-10 min</span></td>
+                    <td class="detects-text">Language comp. (controls for reading)</td>
+                    <td><div class="tools-container"><span class="tool-badge">OWLS-2</span><span class="tool-badge">CELF-5</span><span class="tool-badge">GORT-5</span><span class="tool-badge">WJ-IV</span></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <br>
+        <br>
+        
+        <p>
+         <b>Total Assessment Time for MVP:</b> 25-35 minutes for comprehensive screening
+        </p>
+    </div>
+
+</body>
+</html>
