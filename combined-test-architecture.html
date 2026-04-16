@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Screening Architecture</title>
+    <style>
+        :root {
+            /* Core Colors */
+            --bg-page: #f0f4f8;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            
+            /* Domain Colors */
+            --c-hw: #8b5cf6;     /* Handwriting - Purple */
+            --c-pa: #0ea5e9;     /* Phonological - Blue */
+            --c-ran: #f59e0b;    /* RAN - Amber */
+            --c-dec: #ef4444;    /* Decoding - Red */
+            --c-flu: #10b981;    /* Fluency - Green */
+
+            /* Risk Colors */
+            --risk-low: #10b981;
+            --risk-mod: #f59e0b;
+            --risk-high: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Headers --- */
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            border-bottom: 3px solid #cbd5e1;
+            padding-bottom: 0.5rem;
+            margin: 4rem 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* --- Assessment Phase --- */
+        .assessment-flow {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: stretch;
+            margin-bottom: 3rem;
+        }
+
+        .flow-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            flex: 1;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border-top: 5px solid #334155;
+            position: relative;
+        }
+
+        .flow-card h3 {
+            color: #334155;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .time-badge {
+            background: #f1f5f9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Analysis Phase (Domains) --- */
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .domain-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+        }
+
+        .d-hw::before { background: var(--c-hw); }
+        .d-pa::before { background: var(--c-pa); }
+        .d-ran::before { background: var(--c-ran); }
+        .d-dec::before { background: var(--c-dec); }
+        .d-flu::before { background: var(--c-flu); }
+
+        .domain-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .weight-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .d-hw .weight-circle { background: var(--c-hw); }
+        .d-pa .weight-circle { background: var(--c-pa); }
+        .d-ran .weight-circle { background: var(--c-ran); }
+        .d-dec .weight-circle { background: var(--c-dec); }
+        .d-flu .weight-circle { background: var(--c-flu); }
+
+        .domain-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            max-width: 65%;
+        }
+
+        ul.metric-list {
+            list-style: none;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        ul.metric-list li {
+            padding-left: 1.2rem;
+            position: relative;
+            margin-bottom: 0.4rem;
+        }
+
+        ul.metric-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .scoring-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+        }
+
+        /* --- Risk Assessment --- */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .risk-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .risk-card.low { border-color: var(--risk-low); }
+        .risk-card.mod { border-color: var(--risk-mod); }
+        .risk-card.high { border-color: var(--risk-high); background: #fef2f2; }
+
+        .risk-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .low .risk-title { color: var(--risk-low); }
+        .mod .risk-title { color: var(--risk-mod); }
+        .high .risk-title { color: var(--risk-high); }
+
+        /* --- Tables --- */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        /* --- Case Study UI --- */
+        .case-study {
+            background: #1e293b;
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 1rem;
+        }
+
+        .bar-container {
+            width: 100%;
+            background: #334155;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+        }
+
+        .case-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(245, 158, 11, 0.1); /* Amber tint */
+            border-left: 4px solid var(--risk-mod);
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 900px) {
+            .assessment-flow { flex-direction: column; }
+            .risk-grid { grid-template-columns: 1fr; }
+            .info-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="page-title">Dyslexia Screening Architecture</h1>
+    <p class="page-subtitle">A multi-modal, automated system combining traditional reading tests with AI handwriting analysis.</p>
+
+    <h2 class="section-title">⏱️ Phase 1: Assessment <span style="font-size: 1rem; color: #64748b; font-weight: normal; margin-left: auto;">Total: 30-35 minutes</span></h2>
+    <div class="assessment-flow">
+        <div class="flow-card" style="flex: 2;">
+            <h3>Input 1: Digital/Oral Tasks <span class="time-badge">25-30 min</span></h3>
+            <ul style="list-style-type: square; margin-left: 1.5rem; color: #475569;">
+                <li><strong>RAN:</strong> Letters + Digits</li>
+                <li><strong>Phonological Awareness:</strong> Rhyme, Syllable, Phoneme</li>
+                <li><strong>Fluency:</strong> Oral Reading Fluency & Nonsense Word Fluency</li>
+                <li>Comprehension check</li>
+            </ul>
+        </div>
+        <div class="flow-card">
+            <h3>Input 2: Handwriting <span class="time-badge">3-5 min</span></h3>
+            <p>Student writes a standardized passage on ruled paper.</p>
+        </div>
+        
+    </div>
+
+    <h2 class="section-title">⚙️ Phase 2: AI & Automated Analysis</h2>
+    <div class="domain-grid">
+
+        <div class="domain-card d-pa">
+            <div class="domain-header">
+                <div class="domain-title">Phonological Awareness</div>
+                <div class="weight-circle">15%</div>
+            </div>
+            <ul class="metric-list">
+                <li>Rhyme Detection (0-80 pts)</li>
+                <li>Syllable Segmentation (0-60 pts)</li>
+                <li>Phoneme Blending (0-40 pts)</li>
+            </ul>
+            <div class="scoring-box">
+                <strong>Raw Total:</strong> 0-180 (Normalized to 100)<br>
+                <strong>Subscore:</strong> (0-100) × 0.15 = 0-15 pts
+            </div>
+        </div>
+
+        <div class="domain-card d-ran">
+            <div class="domain-header">
+                <div class="domain-title">Rapid Automatized Naming</div>
+                <div class="weight-circle">25%</div>
+            </div>
+            <ul class="metric-list">
+                <li>Letter naming speed</li>
+                <li>Digit naming speed</li>
+                <li>Benchmark: 50 items/min</li>
+                <li><em><40 = high risk</em></li>
+            </ul>
+            <div class="scoring-box">
+                <strong>Raw:</strong> 100 × (Actual/50)<br>
+                <strong>Subscore:</strong> (0-100) × 0.25 = 0-25 pts
+            </div>
+        </div>
+
+        <div class="domain-card d-dec">
+            <div class="domain-header">
+                <div class="domain-title">Decoding (Nonsense Words)</div>
+                <div class="weight-circle">15%</div>
+            </div>
+            <ul class="metric-list">
+                <li>Correct words in 1 minute</li>
+                <li>Accuracy %</li>
+                <li>Benchmark: 20-25 wpm @ 90%</li>
+                <li><em><10 wpm = significant deficit</em></li>
+            </ul>
+            <div class="scoring-box">
+                <strong>Raw:</strong> (Actual/Benchmark) × 100<br>
+                <strong>Subscore:</strong> (0-100) × 0.15 = 0-15 pts
+            </div>
+        </div>
+
+        <div class="domain-card d-flu">
+            <div class="domain-header">
+                <div class="domain-title">Reading Fluency (ORF)</div>
+                <div class="weight-circle">15%</div>
+            </div>
+            <ul class="metric-list">
+                <li>Words Correct Per Minute (WCPM)</li>
+                <li>Accuracy penalty applied</li>
+                <li>Benchmarks: Gr2(50), Gr3(70), Gr4(90)</li>
+            </ul>
+            <div class="scoring-box">
+                <strong>Raw:</strong> (Actual/Benchmark) × 100<br>
+                <strong>Subscore:</strong> (0-100) × 0.15 = 0-15 pts
+            </div>
+        </div>
+
+        <div class="domain-card d-hw">
+            <div class="domain-header">
+                <div class="domain-title">Handwriting Analysis</div>
+                <div class="weight-circle">20%</div>
+            </div>
+            <ul class="metric-list">
+                <li>Spacing consistency (inter-word variance %)</li>
+                <li>Size consistency (height variance %)</li>
+                <li>Baseline deviation</li>
+                <li>Slant angle consistency</li>
+                <li>Legibility score (0-100)</li>
+            </ul>
+            <div class="scoring-box">
+                <strong>Subscore:</strong> (0-100) × 0.20 = 0-20 pts
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">📊 Phase 3: Risk Assessment & Reporting</h2>
+    
+    <div style="background: #e2e8f0; padding: 1.5rem; border-radius: 8px; text-align: center; font-family: monospace; font-size: 1.2rem; margin-bottom: 2rem;">
+        <strong>FINAL SCORE</strong> = (HW × 0.20) + (PA × 0.15) + (RAN × 0.25) + (Dec × 0.15) + (Flu × 0.15)
+    </div>
+
+    <div class="risk-grid">
+        <div class="risk-card low">
+            <div class="risk-title">✓ LOW RISK</div>
+            <div style="font-size: 1.2rem; margin-bottom: 1rem; color: #64748b;">Score: 0 - 30</div>
+            <ul style="list-style: none; line-height: 1.8;">
+                <li>• Continue regular instruction</li>
+                <li>• Reassess annually</li>
+                <li>• Monitor development</li>
+            </ul>
+        </div>
+        <div class="risk-card mod">
+            <div class="risk-title">⚠️ MODERATE RISK</div>
+            <div style="font-size: 1.2rem; margin-bottom: 1rem; color: #64748b;">Score: 30 - 70</div>
+            <ul style="list-style: none; line-height: 1.8;">
+                <li>• Recommend Tier 2 intervention</li>
+                <li>• Specialist evaluation in 4-6 wks</li>
+                <li>• Reassess every 6-8 weeks</li>
+            </ul>
+        </div>
+        <div class="risk-card high">
+            <div class="risk-title">🚩 HIGH RISK</div>
+            <div style="font-size: 1.2rem; margin-bottom: 1rem; color: #64748b;">Score: 70 - 100</div>
+            <ul style="list-style: none; line-height: 1.8;">
+                <li>• Strong evidence of dyslexia</li>
+                <li>• URGENT specialist referral</li>
+                <li>• Begin Tier 3 intervention</li>
+                <li>• Consider IEP/504 plan</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2 class="section-title">⚖️ Why These Weight Percentages?</h2>
+    <table class="info-table">
+        <thead>
+            <tr>
+                <th>Domain</th>
+                <th>Weight</th>
+                <th>Rationale</th>
+                <th>Research Support</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>RAN</strong></td>
+                <td><strong style="color: var(--c-ran)">25%</strong></td>
+                <td>Single best predictor of reading disability</td>
+                <td>25-30% of reading variance explained</td>
+            </tr>
+            <tr>
+                <td><strong>Handwriting</strong></td>
+                <td><strong style="color: var(--c-hw)">20%</strong></td>
+                <td>Motor/visual-spatial processing. *Serves dual purpose: detects dyslexia (5-10%) and dysgraphia/motor issues (10%).</td>
+                <td>5-10% of reading variance; 20% for catching motor issues</td>
+            </tr>
+            <tr>
+                <td><strong>Phonological Awareness</strong></td>
+                <td><strong style="color: var(--c-pa)">15%</strong></td>
+                <td>Core phonological processing component</td>
+                <td>15-20% of reading variance</td>
+            </tr>
+            <tr>
+                <td><strong>Decoding (NWF)</strong></td>
+                <td><strong style="color: var(--c-dec)">15%</strong></td>
+                <td>Direct measure of phonetic processing</td>
+                <td>15-20% of reading variance</td>
+            </tr>
+            <tr>
+                <td><strong>Reading Fluency (ORF)</strong></td>
+                <td><strong style="color: var(--c-flu)">15%</strong></td>
+                <td>Actual functional reading outcome</td>
+                <td>10-15% of reading variance</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 class="section-title">📝 Scoring Example</h2>
+    <div class="case-study">
+        <div class="case-header">
+            <div>
+                <h3 style="font-size: 1.8rem; margin: 0;">Student Profile: Maria</h3>
+                <p style="color: #94a3b8; margin: 0;">Grade 3</p>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--risk-mod);">67.0</div>
+                <div style="color: #94a3b8; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Total Composite Score</div>
+            </div>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; font-size: 0.95rem;">
+            <tr style="border-bottom: 1px solid #334155;">
+                <th style="padding: 1rem; text-align: left;">Domain</th>
+                <th style="padding: 1rem; text-align: left;">Raw Data</th>
+                <th style="padding: 1rem; text-align: left;">% of Benchmark</th>
+                <th style="padding: 1rem; text-align: right;">Weighted Score</th>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Handwriting</td>
+                <td style="padding: 1rem;">68/100 (Good legibility)</td>
+                <td style="padding: 1rem; width: 30%;">
+                    85%
+                    <div class="bar-container"><div class="bar-fill" style="width: 85%; background: var(--c-hw);"></div></div>
+                </td>
+                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem; color: white;">17.0</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Phonological (PA)</td>
+                <td style="padding: 1rem;">145/180</td>
+                <td style="padding: 1rem;">
+                    96%
+                    <div class="bar-container"><div class="bar-fill" style="width: 96%; background: var(--c-pa);"></div></div>
+                </td>
+                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem; color: white;">14.4</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">RAN</td>
+                <td style="padding: 1rem;">35 letters/min (Target: 50)</td>
+                <td style="padding: 1rem;">
+                    70%
+                    <div class="bar-container"><div class="bar-fill" style="width: 70%; background: var(--c-ran);"></div></div>
+                </td>
+                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem; color: white;">17.5</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+                <td style="padding: 1rem;">Decoding (NWF)</td>
+                <td style="padding: 1rem;">~10 wpm @ 85% acc.</td>
+                <td style="padding: 1rem;">
+                    50%
+                    <div class="bar-container"><div class="bar-fill" style="width: 50%; background: var(--c-dec);"></div></div>
+                </td>
+                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem; color: white;">7.5</td>
+            </tr>
+            <tr>
+                <td style="padding: 1rem;">Fluency (ORF)</td>
+                <td style="padding: 1rem;">55 WCPM @ 90% = 50</td>
+                <td style="padding: 1rem;">
+                    71%
+                    <div class="bar-container"><div class="bar-fill" style="width: 71%; background: var(--c-flu);"></div></div>
+                </td>
+                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.1rem; color: white;">10.6</td>
+            </tr>
+        </table>
+
+        <div class="case-result">
+            <h4 style="color: var(--risk-mod); font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                ⚠️ Result: MODERATE RISK
+            </h4>
+            <p style="color: #cbd5e1; margin-bottom: 0.5rem;"><strong>Interpretation:</strong> RAN and NWF are weak (naming speed and decoding slow). PA is relatively preserved, but reading fluency is below grade level.</p>
+            <p style="color: white;"><strong>Conclusion:</strong> Student shows strong indicators of dyslexia; recommend specialist evaluation and Tier 2 intervention.</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
