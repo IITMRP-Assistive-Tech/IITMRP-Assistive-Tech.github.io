@@ -292,14 +292,66 @@
             border-radius: 0 8px 8px 0;
         }
 
+        nav {
+            background: var(--surface);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 0 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        nav ul {
+            max-width: 1200px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #0f172a;
+            background-color: #f1f5f9;
+        }
+
+        nav a.active {
+            color: #0f172a;
+            border-bottom: 3px solid #0ea5e9;
+            padding-bottom: calc(0.5rem - 3px);
+        }
+
         @media (max-width: 900px) {
             .assessment-flow { flex-direction: column; }
             .risk-grid { grid-template-columns: 1fr; }
             .info-table { display: block; overflow-x: auto; }
+            nav {
+                padding: 0 1rem;
+                margin: -1rem -1rem 1rem -1rem;
+            }
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="index.html">Gold Standard Tests</a></li>
+        <li><a href="Dyslexia-Test-SubTests.html">Dyslexia Tests</a></li>
+        <li><a href="combined-test-architecture.html" class="active">Test Architecture</a></li>
+    </ul>
+</nav>
 
 <div class="container">
     <h1 class="page-title">Dyslexia Screening Architecture</h1>

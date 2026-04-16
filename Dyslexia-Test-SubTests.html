@@ -151,13 +151,65 @@
             font-weight: 500;
         }
 
+        nav {
+            background: var(--bg-table);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 0 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        nav ul {
+            max-width: 1200px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background-color: #dbeafe;
+        }
+
+        nav a.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: calc(0.5rem - 3px);
+        }
+
         @media (max-width: 768px) {
             body { padding: 1rem; }
             h1 { font-size: 1.8rem; }
+            nav {
+                padding: 0 1rem;
+                margin: -1rem -1rem 2rem -1rem;
+            }
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Gold Standard Tests</a></li>
+            <li><a href="Dyslexia-Test-SubTests.html" class="active">Dyslexia Tests</a></li>
+            <li><a href="combined-test-architecture.html">Test Architecture</a></li>
+        </ul>
+    </nav>
 
     <header>
         <h1>Assessment Metrics Breakdown</h1>
